@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  crdb:
+    image: cockroachdb/cockroach:v22.1.11
+    container_name: cockroach-container
+    hostname: cockroach
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health?ready=1" ]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+    command: start-single-node --insecure
+
+  helio:
+    container_name: helio
+    build:
+      context: ./../helio
+      dockerfile: ./../helio/helio.Dockerfile
+    restart:
+      always
+    ports:
+      - 8000:8000
+    depends_on:
+      crdb:
+        condition: service_healthy
+
+  image-server:
+    container_name: image-server
+    hostname: image-server
+    build:
+      context: ./../imageserver
+      dockerfile: ./../imageserver/imageserver.Dockerfile
+    restart:
+      'no'
+    ports:
+      - "8025:8025"
