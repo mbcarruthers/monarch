@@ -54,12 +54,12 @@ dBuild_imageserver: ## build the image server for docker
 	cd imageserver && CGO_ENABLED=0 GOOS=linux go build -o ${BIN_DIR}/imageserver ./cmd/
 
 about: ## Display info related to the build
-	@echo "Package:${PACKAGE}"
+	@echo "Project: ${PACKAGE}"
 	@echo "OS: ${OS}"
 	@echo "Shell: ${SHELL} ${SHELL_VERSION}"
 	@echo "Protoc version: $(shell protoc --version)"
 	@echo "Go version: $(shell go version)"
-	@echo "Go package: ${PACKAGE}"
+	@echo "Go package: helio imageserver"
 	@echo "Openssl version: $(shell openssl version)"
 
 help: ## Show this help
