@@ -21,6 +21,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -29,7 +30,11 @@ import (
 )
 
 const (
-	addr = ":8000" // change to 8000 to use with react client
+	__port = 8000
+)
+
+var (
+	port = fmt.Sprintf(":%d", __port) // change to 8000 to use with react client
 )
 
 var (
@@ -68,10 +73,10 @@ func main() {
 		entities.DELETE("/:id", btrflyHandler.DeleteEntityHandler)           // Note: All mutable operations will move to authorized
 		entities.GET("/search", btrflyHandler.SearchEntitiesWithinDateRange) // Todo: Be able to get dates not within a string values.
 	}
-
-	if err := r.Run(addr); err != nil {
-		log.Fatalf("Error running at port %s\n%s",
-			addr,
+	log.Printf("Database Server live at port %d \n", __port)
+	if err := r.Run(port); err != nil {
+		log.Fatalf("Error running at port %d\n%s",
+			__port,
 			err.Error())
 	}
 
