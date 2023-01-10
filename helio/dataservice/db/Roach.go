@@ -7,20 +7,11 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 	"log"
 	"mbcarruthers/helio/model"
+	"os"
 )
 
-//Todo: Implement a pgxPool connection && set a logger for pgx
-
-// DataConfig is a type created to limit errors created when instantiating a database
-type DataConfig string
-
-// DataConfig.String() is created to facilitate passing a DataConfig as a parameter to a function
-func (d DataConfig) String() string {
-	return string(d)
-}
-
 var (
-	Defaultdb DataConfig = "postgresql://root@cockroach:26257/defaultdb?sslmode=disable" // Note: default database configuration. Nothing fancy, just for testing.
+	Defaultdb = os.Getenv("DSN") // Note: default database configuration. Nothing fancy, just for testing.
 )
 
 // DataStore represents a Cochroachdb connection and facilitates operations surrounding it.
@@ -29,8 +20,8 @@ type DataStore struct {
 }
 
 // NewDataStore creates a new default Database Connection.
-func NewDataStore(dataConfig DataConfig) *DataStore {
-	config, err := pgx.ParseConfig(dataConfig.String())
+func NewDataStore(dataConfig string) *DataStore {
+	config, err := pgx.ParseConfig(dataConfig)
 	if err != nil {
 		log.Fatalf("Error setting database configuration! %+v \n", err)
 	}

@@ -14,6 +14,12 @@ services:
       timeout: 3s
       retries: 5
     command: start-single-node --insecure
+    environment:
+      COCKROACH_USER: root
+      COCKROACH_PASSWORD: ''
+      COCKROACH_DATABASE: defaultdb
+    volumes:
+      - ./cockroach/cockroach-data/:/cockroach/cockroach-data
 
   helio:
     container_name: helio
@@ -22,6 +28,8 @@ services:
       dockerfile: ./../helio/helio.Dockerfile
     restart:
       always
+    environment:
+      DSN: "user=root host=cockroach-container port=26257 sslmode=disable"
     ports:
       - 8000:8000
     depends_on:
