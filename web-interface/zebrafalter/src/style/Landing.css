@@ -1,0 +1,12 @@
+/* image on landing page */
+.btrfly-image {
+    height:60vh;
+    width:25vw;
+    box-shadow: 0 0 50px #ccc;
+}
+/*.outline {*/
+/*    border: 1px solid ghostwhite;*/
+/*}*/
+
+/*background-image: linear-gradient(to left top, #f4ebf0, #ede2f0, #e0dcf2, #cbd7f5, #afd4f3, #8ed9f8, #66def2, #43e2e1, #32ebc5, #63f198, #9ff160, #dfeb0e);*/
+

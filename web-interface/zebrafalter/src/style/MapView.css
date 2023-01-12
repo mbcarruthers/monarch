@@ -1,0 +1,69 @@
+/* disable scrolling on the html & body */
+html, body {
+    margin:0;
+    height:100%;
+    overflow:hidden;
+}
+
+/*map sizing */
+#mapview {
+    height:100vh;
+    width:100vw;
+}
+
+/* marker popup styling*/
+.popup , .leaflet-popup-content-wrapper, .leaflet-popup.tip {
+    border-radius:11px;
+    border:1px solid #1f1f1f;
+    color:#1f1f1f;
+    font-weight:bold;
+    background-color:ghostwhite;
+    box-shadow: 0px 42px 20px -5px rgba( 0, 0, 0, 0.15 );
+    transition-duration: 500ms ;
+    transition-property: box-shadow, transform ;
+    transition-timing-function: ease-in-out ;
+    text-align:center;
+}
+
+/* popup 'x' close button */
+.leaflet-popup-close-button > span {
+    color:#1f1f1f;
+
+}
+
+/* date input container */
+.date-input-group {
+    color:#1f1f1f;
+    border-radius:11px;
+}
+/* submit button for observation requests */
+#date-submit-button {
+    display: inline-block;
+    outline: 0;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px 0 rgb(213 217 217 / 50%);
+    background: #FFF;
+    border: 1px solid #D5D9D9;
+    font-size: 13px;
+    height: 31px;
+    padding: 0 11px;
+    text-align: center;
+    font-weight: 400;
+    color: #0F1111;
+}
+/* ajax observation request button hovering */
+#date-submit-button:hover{
+    background-color: #F7FAFA;
+    border-color: #D5D9D9;
+    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.3);
+    transition-duration: 500ms ;
+    transition-property: box-shadow, transform ;
+    transition-timing-function: ease-in-out ;
+}
+
+/* box for the count of the search query */
+.count-box {
+    border:1px solid #1f1f1f;
+    color:#1f1f1f;
+}

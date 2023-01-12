@@ -53,6 +53,18 @@ build_imageserver: ## build the image server normally
 dBuild_imageserver: ## build the image server for docker
 	cd imageserver && CGO_ENABLED=0 GOOS=linux go build -o ${BIN_DIR}/imageserver ./cmd/
 
+dBuild_webServer: ## build the web-interface server for docker
+	cd web-interface/webServer && GOOS=linux CGO_ENABLED=0 go build -o ${PWD}/web-interface/app/server/webServer ./cmd/
+
+npm_build: ## build the web-interface(zebrafalter) for docker in app/server
+	cd web-interface/zebrafalter && npm run build
+
+npm_clean: ## clean the web-interface project from the docker location(app/client)
+	cd web-interface/zebrafalter && npm run clean
+
+npm_start: ## start the npm project independent of a server
+	cd web-interface/zebrafalter && npm start
+
 about: ## Display info related to the build
 	@echo "Project: ${PACKAGE}"
 	@echo "OS: ${OS}"
