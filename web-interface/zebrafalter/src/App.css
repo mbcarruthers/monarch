@@ -1,0 +1,25 @@
+.app {
+    width:100vw;
+    height:100vh;
+}
+.outline {
+    border:1px solid black;
+}
+
+/* change color: change color of nav links for hovering on and off */
+.change-color {
+    color:white;
+}
+.change-color:hover {
+    color:black;
+}
+.page-item:not(:hover) {
+    color:white;
+}
+.local {
+    width:100vw;
+    height:100vh;
+}
+.no-decor {
+    text-decoration:none;
+}

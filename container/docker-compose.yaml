@@ -46,3 +46,13 @@ services:
       'no'
     ports:
       - "8025:8025"
+
+  web-interface:
+    container_name: web-interface
+    hostname: web-interface
+    build:
+      context: ./../web-interface
+      dockerfile: ./../web-interface/web-interface.Dockerfile
+    ports:
+      - 3000:3000
+    restart: 'no'
