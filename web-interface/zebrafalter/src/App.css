@@ -23,3 +23,25 @@
 .no-decor {
     text-decoration:none;
 }
+/* navigation link and text layout/style */
+
+.nav-row {
+    display:flex;
+    justify-content: space-between;
+}
+.nav-link {
+    display:flex;
+}
+
+.nav-text {
+
+    font-family: 'Architects Daughter', cursive;
+    color:ghostwhite;
+}
+
+.comfort {
+    font-family: 'Comfortaa', cursive;
+    color:ghostwhite;
+}
+
+
