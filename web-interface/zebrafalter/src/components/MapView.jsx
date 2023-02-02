@@ -5,14 +5,84 @@ import MapStore from "../MapStore";
 
 import React,{useContext} from "react";
 
-const ZlTid = 49766; // value 'constants' for temporary ease-ability in testing
-const MonarchTid = 48662;
+// monthColors - set of 12 colors to represent the months of the year
+const monthColor = [
+    "#1C2331", // navy blue - January
+    "#5C7FFF", // baby blue - February
+    "#0F9B0F", // forest green - March
+    "#48C9B0", // mint green - April
+    "#9B0F0F", // maroon - May
+    "#FC4F4F", // salmon - June
+    "#9B910F", // olive green - July
+    "#F7DC6F", // pale goldenrod - August
+    "#F7A631", // tangerine - September
+    "#7DCEF2", // baby blue - October
+    "#1E90FF", // dodger blue - November
+    "#87CEFA", // light blue - December
+]
+
+// compare - used to sort observations chronologically
+const compare = (a, b) => {
+    if(a.observed_on < b.observed_on) {
+        return -1;
+    }
+    if (a.observed_on > b.observed_on) {
+        return 1
+    }
+    return 0;
+}
+// setMarkerStyle - provides the correct marker color for the associated month observation
+// was observed in
+const setMarkerStyle = (dateObserved) => {
+    const monthNumber = new Date(dateObserved).getUTCMonth();
+    // Todo: try to get all of the styling for the CircleMarker component done in this return
+    return {
+        color: monthColor[monthNumber],
+        fillColor: monthColor[monthNumber],
+        fillOpacity: 0.5,
+        radius: 11,
+    }
+}
+
+// parseYear - because Date().getFullYear() return 2011 for '2012-01-01'
+const parseYear = (dateObserved) => {
+    return parseInt(dateObserved);
+}
+// pareMonth - Exists because getMonth() was returning 11 for the month of '2012-01-01'
+const parseMonth = (dateObserved) => {
+    return new Date(dateObserved).getUTCMonth() + 1;
+}
+// sortByMonthAndYear - sort an array of observations by month and year, returns a 2 dimensional array
+// of sorted observations.
+// Note: Not sure how necessary this is, but even if not it may proved by be useful
+function sortByMonthAndYear(entities) {
+    const elements = entities.sort(compare);
+    const result = [];
+    let currentMonth = null;
+    let currentYear = null;
+    let currentArray = null;
+
+    for (const element of elements) {
+
+        const month = parseMonth(element.observed_on);
+        const year = parseYear(element.observed_on);
+
+        if (currentMonth === null || month !== currentMonth || year !== currentYear) {
+
+            currentMonth = month;
+            currentYear = year;
+            currentArray = [];
+            result.push(currentArray);
+        }
+        currentArray.push(element);
+    }
+    console.log(result);
+    return result;
+}
 
 // createObservationMarkers - creates observation markers
-// expects
-//  - an array of entities matching the json struct Entity in helio project
-// returns
-//  - an array of leaflet observation markers made for those entities given as an argument
+// expects- an array of entities matching the json struct Entity in helio project
+// returns- an array of leaflet observation markers made for those entities given as an argument
 const createObservationMarkers = (entities) => {
     return entities.map( (entity,idx) => {
         let _link = `https://www.inaturalist.org/observations/${entity.id}`;
@@ -32,6 +102,33 @@ const createObservationMarkers = (entities) => {
     })
 }
 
+const createMarkers = (entities) => {
+    const elements = sortByMonthAndYear(entities);
+
+    return elements.map((element, index) => {
+        return(
+            <div>
+                {
+                    element.map((observation,idx) => {
+                        const _link = `https://www.inaturalist.org/observations/${observation.id}`;
+                        return(
+                         <CircleMarker center={[observation.latitude, observation.longitude]}
+                                       {...setMarkerStyle(observation.observed_on)}
+                                             key={idx}>
+                            <Popup className="popup">
+                                <small className="">Locale:{observation.place_guess}</small><br/>
+                                <small>{observation.species_guess}</small><br/>
+                                <small>Date:{observation.observed_on}</small><br/>
+                                <small><a target="_blank" rel="noopener noreferrer" href={_link}>iNaturalist</a></small>
+                            </Popup>
+                        </CircleMarker>
+                        )
+                    })
+                }
+            </div>
+        )
+    })
+}
 
 
 // MapView serves as the view for the map component.
@@ -46,7 +143,7 @@ const MapView = () => {
             />
             <LayerGroup>
                 {
-                    entityStore.length === 0 ? undefined : createObservationMarkers(entityStore)
+                    entityStore.length === 0 ? undefined : createMarkers(entityStore)
                 }
             </LayerGroup>
 
@@ -56,3 +153,4 @@ const MapView = () => {
 }
 export default MapView;
 
+// createObservationMarkers(entityStore)
