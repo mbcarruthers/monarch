@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Popup,CircleMarker, LayerGroup } from 'react-l
 import MapControls from "./MapControls";
 import "../style/MapView.css";
 import MapStore from "../MapStore";
-
+import {DateTime} from "luxon";
 import React,{useContext} from "react";
 
 // monthColors - set of 12 colors to represent the months of the year
@@ -34,8 +34,8 @@ const compare = (a, b) => {
 // setMarkerStyle - provides the correct marker color for the associated month observation
 // was observed in
 const setMarkerStyle = (dateObserved) => {
-    const monthNumber = new Date(dateObserved).getUTCMonth();
-    // Todo: try to get all of the styling for the CircleMarker component done in this return
+    // const monthNumber = new Date(dateObserved).getUTCMonth();
+    const monthNumber = DateTime.fromFormat(dateObserved,"yyyy-MM-dd").month - 1;
     return {
         color: monthColor[monthNumber],
         fillColor: monthColor[monthNumber],
@@ -43,7 +43,6 @@ const setMarkerStyle = (dateObserved) => {
         radius: 11,
     }
 }
-
 // parseYear - because Date().getFullYear() return 2011 for '2012-01-01'
 const parseYear = (dateObserved) => {
     return parseInt(dateObserved);
@@ -81,6 +80,7 @@ function sortByMonthAndYear(entities) {
 }
 
 // createObservationMarkers - creates observation markers
+// Note: Only makes red markers
 // expects- an array of entities matching the json struct Entity in helio project
 // returns- an array of leaflet observation markers made for those entities given as an argument
 const createObservationMarkers = (entities) => {
