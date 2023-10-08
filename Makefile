@@ -65,6 +65,15 @@ npm_clean: ## clean the web-interface project from the docker location(app/clien
 npm_start: ## start the npm project independent of a server
 	cd web-interface/zebrafalter && npm start
 
+build_all: ## builds everything needed to run the docker-compose file
+        make dBuild_helio 
+        make dBuild_imageserver
+        make dBuild_webServer
+        make npm_build 
+
+run:    ## convenient rule to run docker-compose on it all
+        cd container/ && sudo docker-compose up 
+
 about: ## Display info related to the build
 	@echo "Project: ${PACKAGE}"
 	@echo "OS: ${OS}"
